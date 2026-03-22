@@ -15,9 +15,19 @@ public class Rental (DateTime rentDate, DateTime dueDate, User user, Device devi
     public DateTime DueDate { get; } = dueDate;
     public DateTime? ReturnDate { get; private set; }
 
-    public double RentalFee { get; set; } = rentalFee;
-    public double PriceOfPenalty { get; set; } = 0;
+    public double RentalFee { get; private set; } = rentalFee;
+    public double PriceOfPenalty { get; private set; } = 0;
 
+    public bool IsReturnedOnTime => ReturnDate.HasValue && ReturnDate <= DueDate;
 
+    public void MarkReturn(DateTime returnDate)
+    {
+        ReturnDate = returnDate;
+    }
+
+    public void SetPenalty(double penalty)
+    {
+        PriceOfPenalty = penalty;
+    }
 
 }
