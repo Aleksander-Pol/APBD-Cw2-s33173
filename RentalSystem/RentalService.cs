@@ -21,6 +21,23 @@ public class RentalService
     {
         _devices.Add(device);
     }
+
+
+    public void PrintAllDevices()
+    {
+        foreach (var device in _devices)
+            Console.WriteLine(device.Name +": " + device.Status);
+    }
+
+    public void PrintAllAvailableDevices()
+    {
+        foreach (var device in _devices)
+        {
+            if (device.Status == DeviceStatus.Available)
+                Console.WriteLine(device.Name + ": " + device.Status);
+        }
+    }
+    
     
     
     
