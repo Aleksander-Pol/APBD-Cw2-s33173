@@ -72,5 +72,19 @@ public class RentalService
             
         }
     }
+
+    public void MakeDeviceUnavailable(Device device)
+    {
+        if (device.Status == DeviceStatus.Unavailable)
+            Console.WriteLine($"Device {device.Name} has already been unavailable.");
+        else if (_rentals.Any(rental => rental.Device == device && rental.ReturnDate == null))
+            Console.WriteLine($"Device  {device.Name} is currently rented.");
+        else
+        {
+            device.Status = DeviceStatus.Unavailable;
+            Console.WriteLine($"Successfully changed device {device.Name} status to {device.Status}.");
+        }
+        
+    }
     
 }
