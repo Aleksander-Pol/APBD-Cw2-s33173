@@ -86,5 +86,25 @@ public class RentalService
         }
         
     }
-    
+
+    public void ViewActiveUserRentals(User user)
+    {
+        foreach (var rental in _rentals)
+        {
+            if (rental.User == user && rental.ReturnDate == null)
+            {
+                Console.WriteLine($"User {user.Name} rented {rental.Device.Name}.");
+            }
+        }
+    }
+
+    public void ViewOutdatedRentals()
+    {
+        foreach (var rental in _rentals)
+        {
+            if (rental.ReturnDate == null && DateTime.Now > rental.DueDate)
+                Console.WriteLine($"{rental.Device.Name} - {rental.User.Name}");
+        }
+    }
+
 }
