@@ -52,6 +52,25 @@ public class RentalService
         }
         else Console.WriteLine("Either User exceeded his MaxRentalCount or device is currently unavailable");
     }
-    
+
+    public void ReturnDevice(User user, Device device)
+    {
+        var rental = _rentals.FirstOrDefault(rental => rental.User == user && rental.Device == device && rental.ReturnDate == null);
+
+        if (rental != null)
+        {
+            user.CurrentRentalCount--;
+            device.Status = DeviceStatus.Available;
+            rental.MarkReturn(DateTime.Now);
+
+            Console.WriteLine($"Succesfully returned {rental.Device.Name} from  {user.Name}.");
+            if (!rental.IsReturnedOnTime)
+            {
+                rental.SetPenalty();
+                Console.WriteLine($"Penalty for {user.Name} has been set to {rental.PriceOfPenalty}.");
+            }
+            
+        }
+    }
     
 }

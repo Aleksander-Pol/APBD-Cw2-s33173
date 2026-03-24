@@ -25,9 +25,10 @@ public class Rental (DateTime rentDate, DateTime dueDate, User user, Device devi
         ReturnDate = returnDate;
     }
 
-    public void SetPenalty(double penalty)
+    public void SetPenalty()
     {
-        PriceOfPenalty = penalty;
+        var difference = ReturnDate.Value - DueDate;
+        PriceOfPenalty = difference.TotalDays * 0.05 * Device.Price;
     }
 
 }
