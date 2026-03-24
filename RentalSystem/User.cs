@@ -8,7 +8,10 @@ public abstract class User (string name, string surname, string userType)
     public string Name { get; set; } = name;
     public string Surname { get; set; } = surname;
     public string UserType { get; set; } = userType;
-    
-    
+
+    public abstract int MaxRentalCount { get; }
+    public int CurrentRentalCount { get; set; } = 0;
+
+
 
 }

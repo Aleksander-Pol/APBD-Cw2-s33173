@@ -4,4 +4,6 @@ public class Employee (string name, string surname, string userType, double sala
 {
     public double Salary { get; set; } = salary;
     public string Subject  { get; set; } = subject;
+    public override int MaxRentalCount { get; } = 5;
+    
 }
