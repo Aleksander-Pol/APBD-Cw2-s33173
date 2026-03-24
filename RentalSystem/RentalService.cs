@@ -107,4 +107,25 @@ public class RentalService
         }
     }
 
+    public void GenerateReport()
+    {
+        Console.WriteLine($"All users in system - {_users.Count}");
+        foreach (var user in _users) Console.WriteLine($"{user.Name} {user.Surname}");
+
+        Console.WriteLine($"\nAll devices in system - {_devices.Count}:");
+        PrintAllDevices();
+
+        Console.WriteLine($"\nCurrently available devices: ");
+        PrintAllAvailableDevices();
+        
+        Console.WriteLine($"\nTotal rentals made - {_rentals.Count}");
+
+        Console.WriteLine($"\nActive user rentals: ");
+        foreach (var user in _users) ViewActiveUserRentals(user);
+        
+        Console.WriteLine($"\nOutdated rentals: "); 
+        ViewOutdatedRentals();
+        
+        
+    }
 }
