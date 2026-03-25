@@ -42,9 +42,11 @@ public class RentalService
 
     public void RentDevice(User user, Device device, int days)
     {
+        if (days <= 0) throw new ArgumentOutOfRangeException(nameof(days), "Number of days cannot be <= 0");
+        
         if (user.CurrentRentalCount < user.MaxRentalCount && device.Status == DeviceStatus.Available)
         {
-            _rentals.Add(new Rental(DateTime.Now,  DateTime.Now.AddDays(days), user, device, device.Price));
+            _rentals.Add(new Rental(DateTime.Now,  DateTime.Now.AddDays(days), user, device));
             user.CurrentRentalCount++;
             device.Status = DeviceStatus.Unavailable;
 
@@ -71,6 +73,7 @@ public class RentalService
             }
             
         }
+        else Console.WriteLine($"User {user.Name} currently does not have {device.Name}");
     }
 
     public void MakeDeviceUnavailable(Device device)
@@ -89,13 +92,18 @@ public class RentalService
 
     public void ViewActiveUserRentals(User user)
     {
-        foreach (var rental in _rentals)
+        if (_rentals.Any(rental => rental.User == user && rental.ReturnDate == null))
         {
-            if (rental.User == user && rental.ReturnDate == null)
+            foreach (var rental in _rentals)
             {
-                Console.WriteLine($"User {user.Name} rented {rental.Device.Name}.");
+                if (rental.User == user && rental.ReturnDate == null)
+                {
+                    Console.WriteLine($"User {user.Name} rented {rental.Device.Name}.");
+                }
             }
         }
+        else Console.WriteLine($"User {user.Name} does not have any active rentals");
+      
     }
 
     public void ViewOutdatedRentals()
