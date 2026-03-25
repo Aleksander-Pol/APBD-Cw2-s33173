@@ -32,8 +32,7 @@ class Program
 
        Console.WriteLine("Return after deadline: ");
        rentalService.ReturnDevice(employee, camera, 6 );
-
-       Console.WriteLine("\nReport:");
+       
        rentalService.GenerateReport();
     }
 }

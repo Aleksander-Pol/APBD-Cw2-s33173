@@ -1,4 +1,6 @@
-﻿namespace RentalSystem;
+﻿using System.Runtime.InteropServices.JavaScript;
+
+namespace RentalSystem;
 
 public class RentalService
 {
@@ -50,9 +52,9 @@ public class RentalService
             user.CurrentRentalCount++;
             device.Status = DeviceStatus.Unavailable;
 
-            Console.WriteLine($"User {user.Name} rented {device.Name} and currently has {user.CurrentRentalCount} rentals.");
+            Console.WriteLine($"[{DateTime.Now}] User {user.Name} rented {device.Name} and currently has {user.CurrentRentalCount} rentals.");
         }
-        else Console.WriteLine("Either User exceeded his MaxRentalCount or device is currently unavailable");
+        else Console.WriteLine($"[{DateTime.Now}] Either User exceeded his MaxRentalCount or device is currently unavailable");
     }
 
     public void ReturnDevice(User user, Device device, int days = 0)
@@ -65,27 +67,27 @@ public class RentalService
             device.Status = DeviceStatus.Available;
             rental.MarkReturn(DateTime.Now.AddDays(days));
 
-            Console.WriteLine($"Succesfully returned {rental.Device.Name} from  {user.Name}.");
+            Console.WriteLine($"[{DateTime.Now}] Succesfully returned {rental.Device.Name} from  {user.Name}.");
             if (!rental.IsReturnedOnTime)
             {
                 rental.SetPenalty();
-                Console.WriteLine($"Penalty for {user.Name} has been set to {rental.PriceOfPenalty:F2}.");
+                Console.WriteLine($"[{DateTime.Now}] Penalty for {user.Name} has been set to {rental.PriceOfPenalty:F2}.");
             }
             
         }
-        else Console.WriteLine($"User {user.Name} currently does not have {device.Name}");
+        else Console.WriteLine($"[{DateTime.Now}] User {user.Name} currently does not have {device.Name}");
     }
 
     public void MakeDeviceUnavailable(Device device)
     {
         if (device.Status == DeviceStatus.Unavailable)
-            Console.WriteLine($"Device {device.Name} has already been unavailable.");
+            Console.WriteLine($"[{DateTime.Now}] Device {device.Name} has already been unavailable.");
         else if (_rentals.Any(rental => rental.Device == device && rental.ReturnDate == null))
-            Console.WriteLine($"Device  {device.Name} is currently rented.");
+            Console.WriteLine($"[{DateTime.Now}] Device  {device.Name} is currently rented.");
         else
         {
             device.Status = DeviceStatus.Unavailable;
-            Console.WriteLine($"Successfully changed device {device.Name} status to {device.Status}.");
+            Console.WriteLine($"[{DateTime.Now}] Successfully changed device {device.Name} status to {device.Status}.");
         }
         
     }
@@ -117,6 +119,11 @@ public class RentalService
 
     public void GenerateReport()
     {
+        Console.WriteLine("\n=======================================");
+        Console.WriteLine($"=== REPORT - [{DateTime.Now}] ====");
+        Console.WriteLine("=======================================\n");
+        
+        
         Console.WriteLine($"All users in system - {_users.Count}");
         foreach (var user in _users) Console.WriteLine($"{user.Name} {user.Surname}");
 
