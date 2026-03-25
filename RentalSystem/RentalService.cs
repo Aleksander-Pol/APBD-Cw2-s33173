@@ -110,10 +110,18 @@ public class RentalService
 
     public void ViewOutdatedRentals()
     {
+        Console.WriteLine("Rentals in past:");
+        foreach (var rental in _rentals)
+        {
+            if (rental.ReturnDate != null && rental.ReturnDate > rental.DueDate)
+                Console.WriteLine($"{rental.Device.Name} - {rental.User.Name}\nDueDate: {rental.DueDate} vs ReturnDate: {rental.ReturnDate}\n");
+        }
+
+        Console.WriteLine("Still not returned:");
         foreach (var rental in _rentals)
         {
             if (rental.ReturnDate == null && DateTime.Now > rental.DueDate)
-                Console.WriteLine($"{rental.Device.Name} - {rental.User.Name}");
+                Console.WriteLine($"{rental.Device.Name} - {rental.User.Name}\nDueDate: {rental.DueDate} vs Now: {DateTime.Now}\n");
         }
     }
 
