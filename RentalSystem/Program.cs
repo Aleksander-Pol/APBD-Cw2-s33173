@@ -22,14 +22,16 @@ class Program
 
        Console.WriteLine("Successfull rental: ");
        rentalService.RentDevice(student, laptop, 5);
+       rentalService.RentDevice(employee, camera, 2);
 
        Console.WriteLine("Unsuccessfull rental: ");
        rentalService.RentDevice(employee, laptop, 5);
 
        Console.WriteLine("Return within deadline: ");
        rentalService.ReturnDevice(student, laptop);
-       
-       //skip outdated for now
+
+       Console.WriteLine("Return after deadline: ");
+       rentalService.ReturnDevice(employee, camera, 6 );
 
        Console.WriteLine("\nReport:");
        rentalService.GenerateReport();

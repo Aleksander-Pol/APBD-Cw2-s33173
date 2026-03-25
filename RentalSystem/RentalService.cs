@@ -55,7 +55,7 @@ public class RentalService
         else Console.WriteLine("Either User exceeded his MaxRentalCount or device is currently unavailable");
     }
 
-    public void ReturnDevice(User user, Device device)
+    public void ReturnDevice(User user, Device device, int days = 0)
     {
         var rental = _rentals.FirstOrDefault(rental => rental.User == user && rental.Device == device && rental.ReturnDate == null);
 
@@ -63,13 +63,13 @@ public class RentalService
         {
             user.CurrentRentalCount--;
             device.Status = DeviceStatus.Available;
-            rental.MarkReturn(DateTime.Now);
+            rental.MarkReturn(DateTime.Now.AddDays(days));
 
             Console.WriteLine($"Succesfully returned {rental.Device.Name} from  {user.Name}.");
             if (!rental.IsReturnedOnTime)
             {
                 rental.SetPenalty();
-                Console.WriteLine($"Penalty for {user.Name} has been set to {rental.PriceOfPenalty}.");
+                Console.WriteLine($"Penalty for {user.Name} has been set to {rental.PriceOfPenalty:F2}.");
             }
             
         }
